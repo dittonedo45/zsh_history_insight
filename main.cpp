@@ -37,7 +37,7 @@ struct cmd {
 	int get_year ()
 	{
 		struct tm* tm=tm_time();
-		return tm->tm_year-1900;
+		return tm->tm_year+1900;
 	}
 
 	private:
@@ -46,12 +46,13 @@ struct cmd {
 		return localtime (&ltime);
 	}
 };
+using cmd_list=list<cmd*>;
 
 int main ()
 {
 	string line;
 	vector<cmd> history{};
-	map<int,list<cmd*>> years{};
+	map<int,cmd_list> years{};
 	string *cmdline{nullptr};
 
 	while (getline(cin, line))
@@ -76,7 +77,7 @@ int main ()
 	}
 	for (cmd& cmd: history)
 	{
-		list<cmd*>& l_cmds=years[cmd.get_year()];
+		cmd_list& l_cmds=years[cmd.get_year()];
 		l_cmds.push_back ({&cmd});
 	};
 	for (auto& year_stats: years)
