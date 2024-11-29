@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cstring>
 
 using namespace std;
 
@@ -12,7 +13,22 @@ struct cmd {
 	string htime;
 	string hflag;
 	string cmdline;
+	long long ltime;
 
+	cmd (string htime, string hflag, string cmdline ) : htime(htime), hflag(hflag), cmdline(cmdline)
+	{
+		parse_time ();
+	}
+
+	string get_cmd()
+	{
+		return cmdline;
+	}
+
+	void parse_time ()
+	{
+		ltime=strtold(htime.c_str(), NULL);
+	}
 };
 
 int main ()
@@ -40,6 +56,10 @@ int main ()
 			if(cmdline)
 			(*cmdline)+=line; // Append on the previous history entry
 		}
+	}
+	for (cmd& c: history)
+	{
+		cout<<c.get_cmd ()<<endl;
 	}
 	return 0;
 }
