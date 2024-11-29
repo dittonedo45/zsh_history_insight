@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <list>
+#include <map>
 #include <cstring>
 extern "C" {
 #include <time.h>
@@ -72,6 +74,14 @@ int main ()
 			(*cmdline)+=line; // Append on the previous history entry
 		}
 	}
-	years[cmd.get_year()]
+	for (cmd& cmd: history)
+	{
+		list<cmd*>& l_cmds=years[cmd.get_year()];
+		l_cmds.push_back ({&cmd});
+	};
+	for (auto& year_stats: years)
+	{
+		cout<<year_stats.first<<" size("<<year_stats.second.size()<<")"<<endl;
+	}
 	return 0;
 }
