@@ -39,6 +39,21 @@ struct cmd {
 		struct tm* tm=tm_time();
 		return tm->tm_year+1900;
 	}
+	uint get_week_day ()
+	{
+		struct tm* tm=tm_time();
+		return tm->tm_wday;
+	}
+	uint get_hour ()
+	{
+		struct tm* tm=tm_time();
+		return tm->tm_hour;
+	}
+	uint get_month ()
+	{
+		struct tm* tm=tm_time();
+		return tm->tm_mon;
+	}
 
 	private:
 	struct tm* tm_time()
@@ -53,6 +68,10 @@ int main ()
 	string line;
 	vector<cmd> history{};
 	map<uint,cmd_list> years{};
+	map<uint,cmd_list> week_days{};
+	map<uint,cmd_list> hours{};
+	map<uint,cmd_list> months{};
+
 	string *cmdline{nullptr};
 
 	while (getline(cin, line))
@@ -78,9 +97,16 @@ int main ()
 	for (cmd& cmd: history)
 	{
 		cmd_list& l_cmds=years[cmd.get_year()];
+		cmd_list& lw_cmds=week_days[cmd.get_week_day()];
+		cmd_list& lh_cmds=hours[cmd.get_hour()];
+		cmd_list& lm_cmds=months[cmd.get_month()];
+
 		l_cmds.push_back ({&cmd});
+		lw_cmds.push_back ({&cmd});
+		lh_cmds.push_back ({&cmd});
+		lm_cmds.push_back ({&cmd});
 	};
-	for (auto& year_stats: years)
+	for (auto& year_stats: months)
 	{
 		cout<<year_stats.first<<" size("<<year_stats.second.size()<<")"<<endl;
 	}
