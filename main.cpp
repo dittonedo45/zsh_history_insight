@@ -1,6 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+extern "C" {
+#include <time.h>
+};
 
 using namespace std;
 
@@ -13,7 +16,7 @@ struct cmd {
 	string htime;
 	string hflag;
 	string cmdline;
-	long long ltime;
+	time_t ltime;
 
 	cmd (string htime, string hflag, string cmdline ) : htime(htime), hflag(hflag), cmdline(cmdline)
 	{
@@ -29,12 +32,24 @@ struct cmd {
 	{
 		ltime=strtold(htime.c_str(), NULL);
 	}
+	int get_year ()
+	{
+		struct tm* tm=tm_time();
+		return tm->tm_year-1900;
+	}
+
+	private:
+	struct tm* tm_time()
+	{
+		return localtime (&ltime);
+	}
 };
 
 int main ()
 {
 	string line;
 	vector<cmd> history{};
+	map<int,list<cmd*>> years{};
 	string *cmdline{nullptr};
 
 	while (getline(cin, line))
@@ -57,9 +72,6 @@ int main ()
 			(*cmdline)+=line; // Append on the previous history entry
 		}
 	}
-	for (cmd& c: history)
-	{
-		cout<<c.get_cmd ()<<endl;
-	}
+	years[cmd.get_year()]
 	return 0;
 }
