@@ -34,7 +34,7 @@ struct cmd {
 	{
 		ltime=strtold(htime.c_str(), NULL);
 	}
-	int get_year ()
+	uint get_year ()
 	{
 		struct tm* tm=tm_time();
 		return tm->tm_year+1900;
@@ -52,7 +52,7 @@ int main ()
 {
 	string line;
 	vector<cmd> history{};
-	map<int,cmd_list> years{};
+	map<uint,cmd_list> years{};
 	string *cmdline{nullptr};
 
 	while (getline(cin, line))
