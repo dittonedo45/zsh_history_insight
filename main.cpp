@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -11,13 +12,14 @@ struct cmd {
 	string htime;
 	string hflag;
 	string cmdline;
+
 };
 
 int main ()
 {
 	string line;
-
-	string cmdline{};
+	vector<cmd> history{};
+	string *cmdline{nullptr};
 
 	while (getline(cin, line))
 	{
@@ -29,13 +31,14 @@ int main ()
 
 			if (sep1==-1 || sep2==-1) continue;
 			string ltime{line.substr(1, sep1-1)};
-
 			string hflag{line.substr(sep1+1, sep2-sep1-1)};
+			string commandline=line.substr (sep2+1);
 
-			cout<<ltime<<" "<<hflag<<endl;
-			cmdline=line.substr (sep2+1);
+			history.push_back({ltime, hflag, commandline});
+			cmdline=&history.back().cmdline;
 		}else{
-			cmdline+=line;
+			if(cmdline)
+			(*cmdline)+=line; // Append on the previous history entry
 		}
 	}
 	return 0;
