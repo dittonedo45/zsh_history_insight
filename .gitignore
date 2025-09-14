@@ -1,0 +1,21 @@
+# Compiled binary
+zsh_history_insight
+
+# Object files
+*.o
+*.obj
+
+# Debug files  
+*.dSYM/
+*.pdb
+
+# Temporary files
+/tmp/
+*~
+*.swp
+*.swo
+
+# IDE files
+.vscode/
+.idea/
+*.code-workspace
